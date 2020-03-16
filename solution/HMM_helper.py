@@ -93,19 +93,23 @@ def parse_observations(text):
 
     for line in lines:
         obs_elem = []
-        
+       
         for word in line:
-            word = re.sub(r'[^\w]', '', word).lower()
-            if word not in obs_map:
-                # Add unique words to the observations map.
-                obs_map[word] = obs_counter
-                obs_counter += 1
-            
-            # Add the encoded word.
-            obs_elem.append(obs_map[word])
-        
-        # Add the encoded sequence.
-        obs.append(obs_elem)
+            word = word.strip()
+            if word.isdigit() == False:
+                # through out all digits
+                word = re.sub(r'[^\w\-\']', '', word).lower() 
+                #re.sub(r'[^\w]', '', word).lower()
+                if word not in obs_map:
+                    # Add unique words to the observations map.
+                    obs_map[word] = obs_counter
+                    obs_counter += 1
+
+                # Add the encoded word.
+                obs_elem.append(obs_map[word])
+
+                # Add the encoded sequence.
+                obs.append(obs_elem)
 
     return obs, obs_map
 
