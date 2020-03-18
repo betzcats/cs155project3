@@ -113,6 +113,39 @@ def parse_observations(text):
 
     return obs, obs_map
 
+
+def parse_observations_reverse(text):
+    # Convert text to dataset.
+    lines = [line.split() for line in text.split('\n') if line.split()]
+
+    obs_counter = 0
+    obs = []
+    obs_map = {}
+
+    for line in lines:
+        obs_elem = []
+        
+        for word in line:
+            print("word:", word)
+            word = word.strip()
+            if word.isdigit() == False:
+                # through out all digits
+                word = re.sub(r'[^\w\-\']', '', word).lower() 
+                #re.sub(r'[^\w]', '', word).lower()
+                if word not in obs_map:
+                    # Add unique words to the observations map.
+                    obs_map[word] = obs_counter
+                    obs_counter += 1
+
+                # Add the encoded word.
+                obs_elem.append(obs_map[word])
+
+                # Add the encoded sequence.
+                obs.append(obs_elem)
+
+    return obs, obs_map
+
+
 def obs_map_reverser(obs_map):
     obs_map_r = {}
 
@@ -123,10 +156,15 @@ def obs_map_reverser(obs_map):
 
 def sample_sentence(hmm, obs_map, n_words=100):
     # Get reverse map.
+    seed = obs_map["bright"]
     obs_map_r = obs_map_reverser(obs_map)
 
+    # obs_map is of the form key=word: val=identifier
+    # Pass the identifier 
+
+    
     # Sample and convert sentence.
-    emission, states = hmm.generate_emission(n_words)
+    emission, states = hmm.generate_emission(n_words, seed)
     sentence = [obs_map_r[i] for i in emission]
 
     return ' '.join(sentence).capitalize() + '...'
