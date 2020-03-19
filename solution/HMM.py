@@ -381,7 +381,7 @@ class HiddenMarkovModel:
                 for xt in range(self.D):
                     self.O[curr][xt] = O_num[curr][xt] / O_den[curr]
 
-    def generate_emission(self, M, seed):
+    def generate_emission(self, M):
         '''
         Generates an emission of length M, assuming that the starting state
         is chosen uniformly at random. 
@@ -399,15 +399,7 @@ class HiddenMarkovModel:
         # emitting observation j given state i.
         
         emission = []
-        emission.append(seed)
-        print("hello")
-        # generate first state given this emission 
-        col_states = [row[emission] for row in self.O]
-   
-        state = np.random.choice(len(col_states), p=col_states)
-        
-        
-        #state = random.choice(range(self.L))
+        state = random.choice(range(self.L))
         states = []
 
         for t in range(M-1):
