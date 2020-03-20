@@ -95,6 +95,7 @@ def parse_observations(text):
         obs_elem = []
         
         for word in line:
+            word = word.strip()
             word = re.sub(r'[^\w\-\'\,]', '', word).lower() 
             #word = re.sub(r'[^\w]', '', word).lower()
             if word not in obs_map:
@@ -126,7 +127,7 @@ def sample_sentence(hmm, obs_map, n_words=100):
     emission, states = hmm.generate_emission(n_words)
     sentence = [obs_map_r[i] for i in emission]
 
-    return ' '.join(sentence).capitalize() + '...'
+    return ' '.join(sentence).capitalize()
 
 
 ####################
