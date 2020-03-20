@@ -394,15 +394,12 @@ class HiddenMarkovModel:
 
             states:     The randomly generated states as a list.
         '''
-        
-        #O: The (i, j)^th element is the probability of
-        # emitting observation j given state i.
-        
+
         emission = []
         state = random.choice(range(self.L))
         states = []
 
-        for t in range(M-1):
+        for t in range(M):
             # Append state.
             states.append(state)
 
@@ -430,7 +427,6 @@ class HiddenMarkovModel:
 
         return emission, states
 
-    
 
     def probability_alphas(self, x):
         '''
